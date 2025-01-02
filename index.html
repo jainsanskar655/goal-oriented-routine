@@ -1,191 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanskar's 6-Month Goal-Oriented Routine</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        section {
-            padding: 20px;
-        }
-        h2 {
-            color: #4CAF50;
-        }
-        .content {
-            margin-bottom: 40px;
-        }
-        .section-title {
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        .toggle-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            margin: 10px 0;
-            font-size: 16px;
-        }
-        .toggle-btn:hover {
-            background-color: #45a049;
-        }
-        .hidden {
-            display: none;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: white;
-        }
-        .goal-progress {
-            margin-top: 10px;
-        }
-        .progress-bar {
-            width: 100%;
-            background-color: #f4f4f4;
-            border-radius: 5px;
-        }
-        .progress {
-            height: 20px;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            width: 0;
-        }
-        @media (max-width: 768px) {
-            .content {
-                padding: 15px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goal-Oriented Routine</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body>
 
-    <header>
-        <h1>Sanskar's 6-Month Goal-Oriented Routine</h1>
-    </header>
+  <!-- Particles Background -->
+  <div id="particles-js"></div>
 
-    <section class="content">
-        <h2>My Schedule</h2>
+  <!-- Buttons for Journal and Tasks -->
+  <div class="buttons">
+    <button onclick="openJournal()">Open Journal</button>
+    <button onclick="openTasks()">Open Tasks</button>
+  </div>
 
-        <!-- Morning Routine -->
-        <div>
-            <button class="toggle-btn" onclick="toggleVisibility('morning')">Toggle Morning Routine</button>
-            <div id="morning" class="hidden">
-                <h3>Morning Routine (6:00 AM – 9:00 AM)</h3>
-                <ul>
-                    <li><strong>Wake Up and Hydrate (6:00–6:10 AM):</strong> Start the day with a glass of water and light stretches.</li>
-                    <li><strong>Japanese Learning (6:10–7:00 AM):</strong> Focus on vocabulary, grammar, or listening using apps and textbooks.</li>
-                    <li><strong>Breakfast and Cooking Prep (7:00–8:00 AM):</strong> Prepare a nutritious breakfast and lunch for work if needed.</li>
-                    <li><strong>Personal Development or Light Reading (8:00–8:30 AM):</strong> Read a book or listen to a podcast for growth.</li>
-                    <li><strong>Get Ready for Work (8:30–9:00 AM):</strong> Prepare for the workday.</li>
-                    <li><strong>Commute to Office (9:00–10:00 AM):</strong> Relax or listen to educational content while commuting.</li>
-                </ul>
-            </div>
-        </div>
+  <!-- Journal Modal -->
+  <div id="journalModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeJournal()">&times;</span>
+      <h2>Journal</h2>
+      <textarea id="journalInput" rows="5" cols="50" placeholder="Write your thoughts..."></textarea>
+      <button onclick="saveJournal()">Save Journal</button>
+    </div>
+  </div>
 
-        <!-- Office Hours -->
-        <div>
-            <button class="toggle-btn" onclick="toggleVisibility('office')">Toggle Office Hours</button>
-            <div id="office" class="hidden">
-                <h3>Office Hours (10:00 AM – 6:00 PM)</h3>
-                <ul>
-                    <li><strong>Morning Focus (10:00 AM–1:00 PM):</strong> Work on high-priority tasks.</li>
-                    <li><strong>Lunch Break (1:00–1:45 PM):</strong> Enjoy a healthy, light meal to recharge.</li>
-                    <li><strong>Afternoon Work (2:00–6:00 PM):</strong> Meetings, client interactions, and routine tasks.</li>
-                </ul>
-            </div>
-        </div>
+  <!-- Task Modal -->
+  <div id="taskModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeTasks()">&times;</span>
+      <h2>Tasks</h2>
+      <textarea id="taskInput" rows="5" cols="50" placeholder="Add your tasks..."></textarea>
+      <button onclick="saveTask()">Save Task</button>
+    </div>
+  </div>
 
-        <!-- Evening Routine -->
-        <div>
-            <button class="toggle-btn" onclick="toggleVisibility('evening')">Toggle Evening Routine</button>
-            <div id="evening" class="hidden">
-                <h3>Evening Routine (6:00 PM – 10:30 PM)</h3>
-                <ul>
-                    <li><strong>Gym Workout (6:00–7:00 PM):</strong> Focus on strength training or cardio.</li>
-                    <li><strong>Commute Home and Refresh (7:00–7:30 PM):</strong> Travel back home and freshen up.</li>
-                    <li><strong>Dinner Prep and Eating (7:30–8:15 PM):</strong> Cook and enjoy a balanced meal.</li>
-                    <li><strong>Competitive Exam Preparation (8:15–9:15 PM):</strong> Focus on structured study for exams.</li>
-                    <li><strong>Japanese Listening Practice (9:15–9:45 PM):</strong> Watch Japanese shows or practice listening skills.</li>
-                    <li><strong>Wind Down and Reflection (9:45–10:15 PM):</strong> Journal, engage in mindfulness or gratitude meditation.</li>
-                    <li><strong>Bedtime Prep (10:15–10:30 PM):</strong> Get ready for bed.</li>
-                    <li><strong>Sleep (10:30 PM):</strong> Aim for 7.5+ hours of quality sleep.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Financial Planning -->
-        <h2>Financial Planning (Monthly)</h2>
-        <div>
-            <h3>Fixed Expenses</h3>
-            <ul>
-                <li>Rent: ₹16,000</li>
-                <li>Groceries and Food: ₹6,000–₹8,000</li>
-                <li>Travel (Auto for Office Commute): ₹3,000–₹4,000</li>
-                <li>Personal Expenses: ₹5,000</li>
-            </ul>
-            <h3>Savings Goals</h3>
-            <ul>
-                <li>Emergency Fund & Long-Term Goals: ₹15,000–₹18,000 (monthly savings)</li>
-            </ul>
-        </div>
-
-        <!-- Goal Progress -->
-        <h2>Track Your Progress</h2>
-        <div>
-            <p>Track your progress in key areas of your routine:</p>
-            <div class="goal-progress">
-                <label for="fitness-progress">Fitness Progress:</label>
-                <div class="progress-bar">
-                    <div id="fitness-progress" class="progress" style="width: 50%"></div>
-                </div>
-            </div>
-            <div class="goal-progress">
-                <label for="japanese-progress">Japanese Learning Progress:</label>
-                <div class="progress-bar">
-                    <div id="japanese-progress" class="progress" style="width: 30%"></div>
-                </div>
-            </div>
-            <div class="goal-progress">
-                <label for="exam-progress">Competitive Exam Prep Progress:</label>
-                <div class="progress-bar">
-                    <div id="exam-progress" class="progress" style="width: 20%"></div>
-                </div>
-            </div>
-        </div>
-
-    </section>
-
-    <footer class="footer">
-        <p>&copy; 2025 Sanskar's 6-Month Goal-Oriented Routine</p>
-    </footer>
-
-    <script>
-        // Function to toggle the visibility of sections
-        function toggleVisibility(section) {
-            var element = document.getElementById(section);
-            if (element.classList.contains('hidden')) {
-                element.classList.remove('hidden');
-            } else {
-                element.classList.add('hidden');
-            }
+  <!-- Include JavaScript -->
+  <script src="script.js"></script>
+  
+  <!-- Configure Particles.js -->
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": "#ffffff" },
+        "shape": {
+          "type": "circle",
+          "stroke": { "width": 0, "color": "#000000" }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": { "enable": true, "speed": 4, "size_min": 0.1 }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
         }
-    </script>
+      },
+      "interactivity": {
+        "detect_on": "window",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" }
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>
