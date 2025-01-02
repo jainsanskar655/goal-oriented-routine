@@ -3,77 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Daily Routine</title>
+    <title>Your Personal Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Google_Chrome_icon_%282013-2019%29.svg/512px-Google_Chrome_icon_%282013-2019%29.svg.png">
 </head>
 <body>
     <div id="particles-js"></div>
-    <div class="content">
-        <!-- Navigation Tabs -->
-        <div class="tabs">
-            <button class="tablinks" onclick="openTab(event, 'schedule')">Schedule</button>
-            <button class="tablinks" onclick="openTab(event, 'financial-plan')">Financial Plan</button>
-            <button class="tablinks" onclick="openTab(event, 'strategies')">Strategies</button>
-            <button class="tablinks" onclick="openTab(event, 'journal')">Journal</button>
-        </div>
 
-        <!-- Content -->
-        <div id="schedule" class="tabcontent">
-            <h2>Schedule</h2>
-            <div id="current-task"></div>
-            <button onclick="showAllTasks()">View All Tasks</button>
-            <div id="all-tasks" class="hidden">
-                <h3>Full Schedule</h3>
-                <ul>
-                    <li>6:00 AM - Wake Up and Hydrate, Japanese Learning</li>
-                    <li>7:00 AM - Breakfast and Cooking Prep</li>
-                    <li>8:00 AM - Personal Development or Light Reading</li>
-                    <li>10:00 AM - Morning Focus</li>
-                    <li>1:00 PM - Lunch Break</li>
-                    <li>2:00 PM - Afternoon Work</li>
-                    <li>6:00 PM - Gym Workout</li>
-                    <li>7:00 PM - Commute Home and Refresh</li>
-                    <li>7:30 PM - Dinner Prep and Eating</li>
-                    <li>8:15 PM - Competitive Exam Preparation</li>
-                    <li>9:15 PM - Japanese Listening Practice</li>
-                    <li>9:45 PM - Wind Down and Reflection</li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="financial-plan" class="tabcontent">
-            <h2>Financial Plan</h2>
-            <div id="finance-tracker">
-                <h3>Track Your Finances</h3>
-                <label for="expense-name">Expense Name:</label>
-                <input type="text" id="expense-name" placeholder="Enter expense name">
-                <label for="expense-amount">Amount:</label>
-                <input type="number" id="expense-amount" placeholder="Enter amount">
-                <button onclick="addExpense()">Add Expense</button>
-                <ul id="expense-list"></ul>
-            </div>
-        </div>
-
-        <div id="strategies" class="tabcontent">
-            <h2>Strategies</h2>
-            <ul>
-                <li>Meal Prep and Time Management</li>
-                <li>Habit Tracking and Consistency</li>
-                <li>Self-Care and Mental Health</li>
-                <li>Financial Discipline</li>
-            </ul>
-        </div>
-
-        <div id="journal" class="tabcontent">
-            <h2>Journal</h2>
-            <textarea id="journal-entry" placeholder="Write your thoughts..."></textarea>
-            <button onclick="saveJournal()">Save Journal</button>
-            <div id="saved-journal"></div>
-        </div>
+    <div class="sidebar">
+        <button onclick="showSection('schedule')">📅 Schedule</button>
+        <button onclick="showSection('finance')">💸 Finance Tracker</button>
+        <button onclick="showSection('strategies')">🧠 Strategies</button>
+        <button onclick="showSection('weekends')">🌿 Weekends</button>
+        <button onclick="showSection('journal')">📓 Journal</button>
     </div>
 
+    <div class="content" id="schedule">
+        <h2>Your Schedule</h2>
+        <div id="current-task"></div>
+        <button onclick="viewAllTasks()">View All Tasks</button>
+    </div>
+
+    <div class="content" id="finance" style="display:none;">
+        <h2>Expense Tracker</h2>
+        <label for="expense-name">Expense Name:</label>
+        <input type="text" id="expense-name" placeholder="Enter expense name">
+
+        <label for="expense-amount">Amount (₹):</label>
+        <input type="number" id="expense-amount" placeholder="Enter amount">
+
+        <label for="expense-category">Category:</label>
+        <select id="expense-category">
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Miscellaneous">Miscellaneous</option>
+        </select>
+
+        <button onclick="addExpense()">Add Expense</button>
+
+        <h3>Expense History</h3>
+        <ul id="expense-history"></ul>
+
+        <h3>Balance by Category</h3>
+        <div id="balance-container"></div>
+    </div>
+
+    <div class="content" id="strategies" style="display:none;">
+        <h2>Strategies</h2>
+        <p>Details about strategies, meal planning, habit tracking, and more.</p>
+        <ul>
+            <li><strong>Meal Prep and Time Management:</strong> Weekend Batch Cooking</li>
+            <li><strong>Habit Tracking and Consistency:</strong> Use a habit tracking app</li>
+            <li><strong>Self-Care and Mental Health:</strong> Practice mindfulness</li>
+            <li><strong>Staying Focused:</strong> Review goals regularly</li>
+        </ul>
+    </div>
+
+    <div class="content" id="weekends" style="display:none;">
+        <h2>Weekend Schedule</h2>
+        <h3>Saturday</h3>
+        <ul>
+            <li>Morning Routine (6:00 AM – 9:00 AM)</li>
+            <li>Weekend Fitness (9:00–11:00 AM)</li>
+            <li>Personal Projects or Leisure (11:00 AM–1:00 PM)</li>
+            <li>Lunch and Relaxation (1:00–2:00 PM)</li>
+            <li>Exam Preparation and Focus Time (2:00–4:00 PM)</li>
+            <li>Social or Relaxation Time (4:00–6:00 PM)</li>
+            <li>Dinner and Wind Down (7:00–9:00 PM)</li>
+            <li>Weekend Review (9:00–10:30 PM)</li>
+        </ul>
+
+        <h3>Sunday</h3>
+        <ul>
+            <li>Morning Routine (6:00 AM – 9:00 AM)</li>
+            <li>Weekend Activity (9:00 AM–12:00 PM)</li>
+            <li>Personal Growth (12:00 PM–2:00 PM)</li>
+            <li>Lunch and Relax (2:00 PM–3:00 PM)</li>
+            <li>Study Time or Work on Personal Projects (3:00 PM–5:00 PM)</li>
+            <li>Relaxation and Family/Friends Time (5:00 PM–7:00 PM)</li>
+            <li>Prepare for the Week Ahead (7:00 PM–9:00 PM)</li>
+            <li>Wind Down and Reflection (9:00 PM–10:30 PM)</li>
+        </ul>
+    </div>
+
+    <div class="content" id="journal" style="display:none;">
+        <h2>Journal</h2>
+        <textarea id="journal-entry" placeholder="Write your thoughts here..."></textarea>
+        <button onclick="saveJournal()">Save Entry</button>
+        <div id="journal-history"></div>
+    </div>
+
+    <script src="particles.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
