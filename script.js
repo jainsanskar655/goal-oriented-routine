@@ -1,109 +1,81 @@
-// ParticlesJS Initialization
-window.onload = function() {
-  particlesJS("particles-js", {
-      particles: {
-          number: { value: 80, density: { enable: true, value_area: 800 } },
-          color: { value: "#ffffff" },
-          shape: { type: "circle", stroke: { width: 0, color: "#000000" } },
-          size: { value: 3, random: true, anim: { enable: true, speed: 4, size_min: 0.1 } },
-          line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 }
-      },
-      interactivity: { detect_on: "window", events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } } }
+// Function to show the current section
+function showSection(section) {
+  const sections = ['schedule', 'finance', 'strategies', 'weekends', 'journal'];
+  sections.forEach(s => {
+      document.getElementById(s).style.display = s === section ? 'block' : 'none';
+  });
+}
+
+// Function to display the current ongoing task
+function getCurrentTask() {
+  const now = new Date();
+  const currentTime = now.getHours() * 60 + now.getMinutes(); // current time in minutes
+  
+  const schedule = [
+      { name: "Wake Up and Hydrate", start: 360, end: 370 }, // 6:00 AM – 6:10 AM
+      { name: "Japanese Learning", start: 370, end: 420 }, // 6:10 AM – 7:00 AM
+      { name: "Breakfast and Cooking Prep", start: 420, end: 480 }, // 7:00 AM – 8:00 AM
+      { name: "Personal Development or Light Reading", start: 480, end: 510 }, // 8:00 AM – 8:30 AM
+      { name: "Get Ready for Work", start: 510, end: 540 }, // 8:30 AM – 9:00 AM
+      { name: "Commute to Office", start: 540, end: 600 }, // 9:00 AM – 10:00 AM
+      { name: "Morning Focus", start: 600, end: 780 }, // 10:00 AM – 1:00 PM
+      { name: "Lunch Break", start: 780, end: 825 }, // 1:00 PM – 1:45 PM
+      { name: "Afternoon Work", start: 840, end: 1080 }, // 2:00 PM – 6:00 PM
+      { name: "Gym Workout", start: 1080, end: 1140 }, // 6:00 PM – 7:00 PM
+      { name: "Commute Home and Refresh", start: 1140, end: 1170 }, // 7:00 PM – 7:30 PM
+      { name: "Dinner Prep and Eating", start: 1170, end: 1215 }, // 7:30 PM – 8:15 PM
+      { name: "Competitive Exam Preparation", start: 1215, end: 1230 }, // 8:15 PM – 9:15 PM
+      { name: "Japanese Listening Practice", start: 1230, end: 1260 }, // 9:15 PM – 9:45 PM
+      { name: "Wind Down and Reflection", start: 1260, end: 1290 }, // 9:45 PM – 10:15 PM
+      { name: "Bedtime Prep", start: 1290, end: 1320 }, // 10:15 PM – 10:30 PM
+      { name: "Sleep", start: 1320, end: 0 } // 10:30 PM onwards
+  ];
+
+  // Find the task based on the current time
+  let currentTask = "No task currently running";
+  schedule.forEach(task => {
+      if (currentTime >= task.start && currentTime < task.end) {
+          currentTask = task.name;
+      }
   });
 
-  displayCurrentTask();
-};
-
-// Tab Navigation
-function openTab(evt, tabName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " active";
+  document.getElementById("current-task").innerHTML = "Current Task: " + currentTask;
 }
 
-// Display Current Task Based on IST
-function displayCurrentTask() {
-  var currentDate = new Date();
-  var hours = currentDate.getUTCHours() + 5;
-  var minutes = currentDate.getUTCMinutes() + 30;
-
-  if (minutes >= 60) {
-      minutes -= 60;
-      hours += 1;
-  }
-
-  var currentTaskElement = document.getElementById("current-task");
-
-  if (hours >= 6 && hours < 7) {
-      currentTaskElement.innerHTML = "Ongoing Task: Wake Up and Hydrate, Japanese Learning";
-  } else if (hours >= 7 && hours < 8) {
-      currentTaskElement.innerHTML = "Ongoing Task: Breakfast and Cooking Prep";
-  } else if (hours >= 8 && hours < 9) {
-      currentTaskElement.innerHTML = "Ongoing Task: Personal Development or Light Reading";
-  } else if (hours >= 10 && hours < 13) {
-      currentTaskElement.innerHTML = "Ongoing Task: Morning Focus";
-  } else if (hours >= 13 && hours < 14) {
-      currentTaskElement.innerHTML = "Ongoing Task: Lunch Break";
-  } else if (hours >= 14 && hours < 18) {
-      currentTaskElement.innerHTML = "Ongoing Task: Afternoon Work";
-  } else if (hours >= 18 && hours < 19) {
-      currentTaskElement.innerHTML = "Ongoing Task: Gym Workout";
-  } else if (hours >= 19 && hours < 19.5) {
-      currentTaskElement.innerHTML = "Ongoing Task: Commute Home and Refresh";
-  } else if (hours >= 19.5 && hours < 20.25) {
-      currentTaskElement.innerHTML = "Ongoing Task: Dinner Prep and Eating";
-  } else if (hours >= 20.25 && hours < 21.25) {
-      currentTaskElement.innerHTML = "Ongoing Task: Competitive Exam Preparation";
-  } else if (hours >= 21.25 && hours < 21.75) {
-      currentTaskElement.innerHTML = "Ongoing Task: Japanese Listening Practice";
-  } else if (hours >= 21.75 && hours < 22.5) {
-      currentTaskElement.innerHTML = "Ongoing Task: Wind Down and Reflection";
-  } else {
-      currentTaskElement.innerHTML = "View All Tasks for the Day.";
-  }
+// Function to display the detailed schedule when "View All Tasks" is clicked
+function viewAllTasks() {
+  const detailedTasks = `
+      <h2>My Detailed Schedule</h2>
+      <h3>Morning Routine (6:00 AM – 9:00 AM)</h3>
+      <ol>
+          <li><strong>Wake Up and Hydrate (6:00–6:10 AM)</strong>: Start the day with a glass of water and perform light stretches to wake up the body.</li>
+          <li><strong>Japanese Learning (6:10–7:00 AM)</strong>: Dedicate time to learning Japanese: practice vocabulary, grammar, or listening using apps and textbooks.</li>
+          <li><strong>Breakfast and Cooking Prep (7:00–8:00 AM)</strong>: Prepare a nutritious breakfast and, if necessary, cook lunch for work. Opt for quick meals that support your goals.</li>
+          <li><strong>Personal Development or Light Reading (8:00–8:30 AM)</strong>: Read books or listen to a podcast for personal growth, relaxation, and self-improvement.</li>
+          <li><strong>Get Ready for Work (8:30–9:00 AM)</strong>: Prepare for the workday by getting dressed and packing any items needed for the day.</li>
+          <li><strong>Commute to Office (9:00–10:00 AM)</strong>: Use this time to relax or listen to educational content while traveling to work.</li>
+      </ol>
+      <h3>Office Hours (10:00 AM – 6:00 PM)</h3>
+      <ol>
+          <li><strong>Morning Focus (10:00 AM–1:00 PM)</strong>: Focus on high-priority tasks that require deep concentration or creativity.</li>
+          <li><strong>Lunch Break (1:00–1:45 PM)</strong>: Take a break for a light, healthy lunch to recharge.</li>
+          <li><strong>Afternoon Work (2:00–6:00 PM)</strong>: Continue with client meetings, routine tasks, and follow-ups related to your pre-sales consultant role.</li>
+      </ol>
+      <h3>Evening Routine (6:00 PM – 10:30 PM)</h3>
+      <ol>
+          <li><strong>Gym Workout (6:00–7:00 PM)</strong>: Perform strength training, cardio, or flexibility exercises to maintain fitness.</li>
+          <li><strong>Commute Home and Refresh (7:00–7:30 PM)</strong>: Travel back home and freshen up after the workout.</li>
+          <li><strong>Dinner Prep and Eating (7:30–8:15 PM)</strong>: Cook and enjoy a balanced, nutritious dinner that aligns with your health goals.</li>
+          <li><strong>Competitive Exam Preparation (8:15–9:15 PM)</strong>: Study for competitive exams. Focus on different topics each day to ensure balanced preparation.</li>
+          <li><strong>Japanese Listening Practice (9:15–9:45 PM)</strong>: Watch Japanese shows, videos, or practice listening skills to improve comprehension and speaking ability.</li>
+          <li><strong>Wind Down and Reflection (9:45–10:15 PM)</strong>: Journal about the day’s progress and emotions. Engage in mindfulness practices or gratitude meditation to relax.</li>
+          <li><strong>Bedtime Prep (10:15–10:30 PM)</strong>: Prepare for bed to ensure a restful sleep.</li>
+          <li><strong>Sleep (10:30 PM)</strong>: Aim for 7.5+ hours of quality sleep.</li>
+      </ol>
+  `;
+  document.querySelector('.content#schedule').innerHTML = detailedTasks;
 }
 
-// Show All Tasks when button is clicked
-function showAllTasks() {
-  document.getElementById("all-tasks").classList.toggle("hidden");
-}
-
-// Add Expense to Tracker
-function addExpense() {
-  var name = document.getElementById("expense-name").value;
-  var amount = document.getElementById("expense-amount").value;
-  if (name && amount) {
-      var expenseList = document.getElementById("expense-list");
-      var li = document.createElement("li");
-      li.textContent = name + ": ₹" + amount;
-      expenseList.appendChild(li);
-
-      // Save to local storage
-      var expenses = JSON.parse(localStorage.getItem("expenses") || "[]");
-      expenses.push({ name: name, amount: amount });
-      localStorage.setItem("expenses", JSON.stringify(expenses));
-
-      // Clear inputs
-      document.getElementById("expense-name").value = "";
-      document.getElementById("expense-amount").value = "";
-  }
-}
-
-// Save Journal Entry
-function saveJournal() {
-  var entry = document.getElementById("journal-entry").value;
-  if (entry) {
-      var savedJournal = document.getElementById("saved-journal");
-      savedJournal.innerHTML = "<p>" + entry + "</p>";
-      localStorage.setItem("journal", entry);
-      document.getElementById("journal-entry").value = "";
-  }
-}
+// Run the current task function every minute
+setInterval(getCurrentTask, 60000);
+getCurrentTask(); // Initialize on page load
